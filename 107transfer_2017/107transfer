@@ -1,0 +1,85 @@
+#!/usr/bin/python
+
+##
+## EPITECH PROJECT, 2017
+## 107transfer
+## File description:
+## math
+##
+
+from math import *
+import sys
+
+def arg_error():
+	ac = len(sys.argv)
+	if ac % 2 == 0 and ac != 2 or ac == 1:
+		print ("Invalid number of arguments, try %s -h" % sys.argv[0])
+		sys.exit(84)
+	elif ac == 2 and sys.argv[1] == "-h":
+		print ("USAGE\n\t./107transfer [num den]*\n\nDESCRIPTION")
+		print ("\tnum\tpolynomial numerator defined by its coeficients")
+		print ("\tden\tpolynomial denominator defined by its coeficients")
+		sys.exit(0)
+	elif ac == 2:
+		print ("Invalid number of arguments, try %s -h" % sys.argv[0])
+		sys.exit(84)
+	return ac
+
+def arg_to_int(ac):
+	i = 1
+	sn = (ac - 1) * [0]
+	while i < ac:
+		j = 0
+		str = sys.argv[i]
+		x = 0
+		for s in str.split("*"):
+			if s.isdigit():
+				x = x + 1
+			elif s[0] == '-':
+				x = x + 1
+			else:
+				sys.exit(84)
+		sn[i - 1] = str.split("*")
+		i = i + 1
+	return sn
+
+def calc(ac, s):
+	x = 0.0
+	interupt = 1
+	while x < 1.001:
+		i = 0
+		res = 1.0
+		tmp = 0.0
+		tmp2 = 0.0
+		si = 0
+		while i < (ac - 1) / 2:
+			j = len(s[si])
+			while j != 0:
+				tmp = tmp + int(s[si][j - 1]) * x ** (j - 1)
+				j = j - 1
+			tmp2 = tmp
+			tmp = 0.0
+			si = si + 1
+			j = len(s[si])
+			while j != 0:
+				tmp = tmp + int(s[si][j - 1]) * x ** (j - 1)
+				j = j - 1
+			if tmp == 0:
+				i = i + 1
+				interupt = 0
+				print ('%f' % x).rstrip('0').rstrip('.'), '-> impossible div by 0'
+				break
+			res = res * (tmp2 / tmp)
+			tmp = 0
+			i = i + 1
+			si = si + 1
+		if interupt == 0:
+			interupt = 1
+			x = x + 0.001
+			continue
+		print ('%f' % x).rstrip('0').rstrip('.'), '-> %.5f' % (res)
+		x = x + 0.001
+
+ac = arg_error()
+s = arg_to_int(ac)
+calc(ac, s)

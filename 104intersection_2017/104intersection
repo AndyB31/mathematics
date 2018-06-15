@@ -1,0 +1,128 @@
+#!/usr/bin/python
+
+##
+## EPITECH PROJECT, 2017
+## 104intersection
+## File description:
+## math project
+##
+
+from math import *
+import sys
+
+try:
+	argc = len(sys.argv)
+	if argc != 9 :
+		print "invalid number of arguments."
+		sys.exit(84)
+
+	opt = float(sys.argv[1])
+	xp = float(sys.argv[2])
+	yp = float(sys.argv[3])
+	zp = float(sys.argv[4])
+	xv = float(sys.argv[5])
+	yv = float(sys.argv[6])
+	zv = float(sys.argv[7])
+	p = float(sys.argv[8])
+
+	if opt == 3:
+		if p <= 0 or p >= 90:
+			print "invalid parameter."
+			sys.exit(84)
+	elif p < 0:
+		print "invalid parameter."
+		sys.exit(84)
+except:
+	sys.exit(84)
+
+if opt == 1 :
+	print ("sphere of radius %d") % p
+	print ("straight line going through the (%d,%d,%d) point and of direction vector (%d,%d,%d)") % (xp, yp, zp, xv, yv, zv)
+	a = (xv**2 + yv**2 + zv**2)
+	b = 2 * (xv*xp + yp*yv + zp*zv)
+	c = (xp**2 + yp**2 + zp**2 - p**2)
+	delta = b**2 - 4 * a * c
+	if delta > 0:
+		print "2 intersection point :"
+		x1 = (-b + sqrt(delta)) / (2 * a)
+		x2 = (-b - sqrt(delta)) / (2 * a)
+		dx1 = xp + x1 * xv
+		dy1 = yp + x1 * yv
+		dz1 = zp + x1 * zv
+		dx2 = xp + x2 * xv
+		dy2 = yp + x2 * yv
+		dz2 = zp + x2 * zv
+		print ("(%.3f, %.3f, %.3f)") % (dx1, dy1, dz1)
+		print ("(%.3f, %.3f, %.3f)") % (dx2, dy2, dz2)
+	elif delta == 0 and a != 0:
+		print "1 intersection point :"
+		x1 = (-b) / (2 * a)
+		dx = xp + x1 * xv
+		dy = yp + x1 * yv
+		dz = zp + x1 * zv
+		print ("(%.3f, %.3f, %.3f)") % (dx, dy, dz)
+	elif a == 0 and delta >= 0 :
+		print "There is an infinite number of intersection points."
+	else :
+		print "No intersection point."
+elif opt == 2 :
+	print ("cylinder of radius %d") % p
+	print ("straight line going through the (%d,%d,%d) point and of direction vector (%d,%d,%d)") % (xp, yp, zp, xv, yv, zv)
+	a = (xv**2 + yv**2)
+	b = 2 * (xv*xp + yp*yv)
+	c = (xp**2 + yp**2 - p**2)
+	delta = b**2 - 4 * a * c
+	if delta > 0 and a != 0:
+		print "2 intersection point :"
+		x1 = (-b + sqrt(delta)) / (2 * a)
+		x2 = (-b - sqrt(delta)) / (2 * a)
+		dx1 = xp + x1 * xv
+		dy1 = yp + x1 * yv
+		dz1 = zp + x1 * zv
+		dx2 = xp + x2 * xv
+		dy2 = yp + x2 * yv
+		dz2 = zp + x2 * zv
+		print ("(%.3f, %.3f, %.3f)") % (dx1, dy1, dz1)
+		print ("(%.3f, %.3f, %.3f)") % (dx2, dy2, dz2)
+	elif delta == 0 and a != 0:
+		print "1 intersection point :"
+		x1 = (-b) / (2 * a)
+		dx = xp + x1 * xv
+		dy = yp + x1 * yv
+		dz = zp + x1 * zv
+		print ("(%.3f, %.3f, %.3f)") % (dx, dy, dz)
+	elif a == 0:
+		print "There is an infinite number of intersection points."
+	else :
+		print "No intersection point."
+elif opt == 3 :
+	print ("cone of %d degree angle") % p
+	print ("straight line going through the (%d,%d,%d) point and of direction vector (%d,%d,%d)") % (xp, yp, zp, xv, yv, zv)
+	angle = radians(p)
+	a = (xv**2 + yv**2 - zv**2 * tan(angle)**2)
+	b = 2 * (xv*xp + yp*yv - zp*zv * tan(angle)**2)
+	c = (xp**2 + yp**2 - zp**2 * tan(angle)**2)
+	delta = b**2 - 4 * a * c
+	if delta > 0 and a != 0:
+		print "2 intersection point :"
+		x1 = (-b + sqrt(delta)) / (2 * a)
+		x2 = (-b - sqrt(delta)) / (2 * a)
+		dx1 = xp + x1 * xv
+		dy1 = yp + x1 * yv
+		dz1 = zp + x1 * zv
+		dx2 = xp + x2 * xv
+		dy2 = yp + x2 * yv
+		dz2 = zp + x2 * zv
+		print ("(%.3f, %.3f, %.3f)") % (dx1, dy1, dz1)
+		print ("(%.3f, %.3f, %.3f)") % (dx2, dy2, dz2)
+	elif delta == 0 and a != 0:
+		print "1 intersection point :"
+		x1 = (-b) / (2 * a)
+		dx = xp + x1 * xv
+		dy = yp + x1 * yv
+		dz = zp + x1 * zv
+		print ("(%.3f, %.3f, %.3f)") % (dx, dy, dz)
+	elif a == 0 :
+		print "There is an infinite number of intersection points."
+	else :
+		print "No intersection point."

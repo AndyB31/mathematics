@@ -1,0 +1,88 @@
+#!/usr/bin/python
+
+##
+## EPITECH PROJECT, 2017
+## 104intersection
+## File description:
+## math project
+##
+
+from math import *
+import sys
+
+def count_1():
+	a = 0.0
+	b = 1.0
+	c = 1.0
+	if opt == 2:
+		print "x = 0.5"
+		c = 0.5
+	ma = a4 * c**4 + a3 * c**3 + a2 * c**2 + a1 * c + a0
+	while (b - a > 10**(-n) and opt == 1 or 
+	abs(ma / (a4 * 4 * c**3 + a3 * 3 * c**2 + a2 * 2 * c + a1)) > 10**(-n) 
+	and opt == 2 or opt == 3 and
+	abs((a4 * c**4 + a3 * c**3 + a2 * c**2 + a1 * c + a0) - 
+	(a4 * a**4 + a3 * a**3 + a2 * a**2 + a1 * a + a0)) > 10**(-n)):
+		if opt == 1:
+			c = calc1(a, b)
+		elif opt == 2:
+			c = calc2(c)
+		elif opt == 3:
+			keep = c
+			c = calc3(c, a)
+			a = keep
+			if (abs((a4 * c**4 + a3 * c**3 + a2 * c**2 + a1 * c + a0) - 
+				(a4 * a**4 + a3 * a**3 + a2 * a**2 + a1 * a + a0)) <= 10**(-n)):
+				break
+		if (10**(n) * c % 1 == 0):
+			print 'x =', c
+		else:
+			print "x = %.*f" %(n, c)
+		ma = a4 * c**4 + a3 * c**3 + a2 * c**2 + a1 * c + a0
+		mb = a4 * a**4 + a3 * a**3 + a2 * a**2 + a1 * a + a0
+		if ma * mb > 0 and opt != 3:
+			a = c
+		else:
+			b = c
+
+def calc1(a, b):
+	c = (a + b) / 2
+	return c
+
+def calc2(c):
+	c = (c - (a4 * c**4 + a3 * c**3 + a2 * c**2 + a1 * c + a0) /
+		(a4 * 4 * c**3 + a3 * 3 * c**2 + a2 * 2 * c + a1))
+	return c
+
+def calc3(c, a):
+	c = (c - ((c - a) / 
+	((a4 * c**4 + a3 * c**3 + a2 * c**2 + a1 * c + a0) - 
+	(a4 * a**4 + a3 * a**3 + a2 * a**2 + a1 * a + a0))) * 
+	(a4 * c**4 + a3 * c**3 + a2 * c**2 + a1 * c + a0))
+	return c
+
+try:
+	argc = len(sys.argv)
+	if argc != 8 :
+		print "invalid number of arguments."
+		sys.exit(84)
+
+	opt = int(sys.argv[1])
+	a0 = float(sys.argv[2])
+	a1 = float(sys.argv[3])
+	a2 = float(sys.argv[4])
+	a3 = float(sys.argv[5])
+	a4 = float(sys.argv[6])
+	n = int(sys.argv[7])
+	if opt > 3 or opt < 1:
+		print "No option for %d" %opt
+		sys.exit(84)
+	if n < 0 or n > 15:
+		print "Bad precision."
+		sys.exit(84)
+
+except:
+	sys.exit(84)
+
+count_1()
+	

@@ -1,0 +1,91 @@
+#!/usr/bin/python
+
+##
+## EPITECH PROJECT, 2017
+## 106bombyx
+## File description:
+## math project
+##
+
+from math import *
+import sys
+
+def print_help():
+	print "USAGE"
+	print "\t./106bombyx n [k | i0 i1]"
+	print "DESCRIPTION"
+	print "\tn\tnumber of first generation individuals"
+	print "\tk\tgrowth rate from 1 to 4"
+	print "\ti0\tinitial generation (included)"
+	print "\ti1\tfinal generation (included)"
+	sys.exit(0)
+
+
+def opt_1(n, k):
+	i = 1
+	x = float(n)
+	while i < 101:
+		print("%d %.2f" %(i, x))
+		x = k * x * ((1000 - x) / 1000)
+		i = i + 1
+
+def opt_2(n, i0, i1):
+	k = 1.00
+	while k <= 4:
+		i = 1
+		x = float(n)
+		while i < i0:
+			x = k * x * ((1000 - x) / 1000)
+			i = i + 1	
+		while i < i1 + 1:
+			x = k * x * ((1000 - x) / 1000)
+			print("%.2f %.2f" %(k, x))
+			i = i + 1
+		k = k + 0.01
+
+def error_gest():
+	if len(sys.argv) == 3:
+		opt = 1
+	elif len(sys.argv) == 4:
+		opt = 2
+	elif len(sys.argv) == 2:
+		if sys.argv[1] == "-h":
+			print_help()
+		else:
+			print "invalid arguments, try with \"-h\""	
+			sys.exit(84)
+	else:
+		print "invalid number of arguments, try with \"-h\""	
+		sys.exit(84)
+	return(opt)
+
+opt = error_gest()
+
+try:
+	n = int(sys.argv[1])
+	if opt == 1:
+		k = float(sys.argv[2])
+	if opt == 2:
+		i0 = int(sys.argv[2])
+		i1 = int(sys.argv[3])
+except:
+	print "invalid arguments, try with \"-h\""	
+	sys.exit(84)
+
+if n < 0:
+	print "invalid arguments, try with \"-h\""
+	sys.exit(84)
+
+if opt == 1:
+	if 1 > k or k > 4:
+		print "invalid arguments, try with \"-h\""
+		sys.exit(84)
+	opt_1(n, k)
+if opt == 2:
+	if i0 < 1:
+		print "invalid arguments, try with \"-h\""
+		sys.exit(84)
+	if i1 < i0:
+		print "invalid arguments, try with \"-h\""
+		sys.exit(84)
+	opt_2(n, i0, i1)

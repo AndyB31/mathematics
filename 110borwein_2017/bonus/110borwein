@@ -1,0 +1,91 @@
+#!/usr/bin/python
+
+from math import *
+import sys
+
+ac = len(sys.argv)
+if ac != 3:
+	if ac == 2 and sys.argv[1] == "-h":
+		print("USAGE\n\t%s n [1 or 0]\n\nDESCRIPTION\n\tn\tconstant defining the integral to be computed" % sys.argv[0])
+		print("\t[1 or 0]\t0 for use the borwein fonction, 1 for use the fontion in fonction")
+		sys.exit(0)
+	print("%s: Invalid number of argument" % sys.argv[0])
+	sys.exit(84)
+c = sys.argv[1]
+fonc = sys.argv[2]
+if c.isdigit() and fonc.isdigit():
+	n = float(c)
+	fn = float(fonc)
+else:
+	print("%s: Invalid argument" % sys.argv[0])
+	sys.exit(84)
+if n < 0:
+	print("%s: Invalid argument" % sys.argv[0])
+	sys.exit(84)
+if fn != 1 and fn != 0:
+	print("%s: Invalid argument" % sys.argv[0])
+	sys.exit(84)
+
+if fn == 1:
+	import fonction as fn
+else:
+	import borwein as fn
+
+def calc_rect(n):
+	x = float(0)
+	c = float(0)
+	while x < 5000:
+#		c1 = float((f(x + 0.5, n) + f(x, n)))
+		c1 = float(fn.f(x, n))
+		c += c1 * 0.5
+		x += 0.5
+	print("I%d = %.10f" %(n, c))
+	d = c - (pi / 2)
+	if int(d * 10**10) == 0:
+		print("diff = 0.0000000000\n")
+	else:
+		print("diff = %.10f\n" %(d))
+	return (c)
+
+def calc_trap(n):
+	x = float(1)
+	c = float(0)
+	while x < 10000:
+		c1 = float(fn.f(x * 0.5, n))
+		c += c1
+		x += 1
+	c = (c * 2 + fn.f(5000, n) + 1) * 0.25
+	print("I%d = %.10f" %(n, c))
+	d = c - (pi / 2)
+	if int(d * 10**10) == 0:
+		print("diff = 0.0000000000\n")
+	else:
+		print("diff = %.10f\n" %(d))
+	return (c)
+
+def calc_simp(n):
+	x = float(0)
+	c = float(0)
+	while x < 5000:
+		c1 = float(fn.f(x, n))
+		c2 = float(fn.f(x + 0.5, n))
+		c += (0.5 / 6) * (c1 + c2 + 4 * fn.f((x + x + 0.5) / 2, n))
+		x += 0.5
+	print("I%d = %.10f" %(n, c))
+	d = c - (pi / 2)
+	if int(d * 10**10) == 0:
+		print("diff = 0.0000000000\n")
+	else:
+		print("diff = %.10f\n" %(d))
+	return (c)
+
+def main():
+	print("Rectangles:")
+	calc_rect(n)
+	print("Trapezoids:")
+	calc_trap(n)
+	print("Simpson:")
+	calc_simp(n)
+
+if __name__ == "__main__":
+	main()
